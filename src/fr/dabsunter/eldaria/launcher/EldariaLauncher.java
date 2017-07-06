@@ -1,10 +1,12 @@
 package fr.dabsunter.eldaria.launcher;
 
+import fr.dabsunter.eldaria.ada.AccountsManager;
 import fr.dabsunter.scam.Scam;
 import fr.theshark34.openauth.AuthPoints;
 import fr.theshark34.openauth.AuthenticationException;
 import fr.theshark34.openauth.Authenticator;
 import fr.theshark34.openauth.model.AuthAgent;
+import fr.theshark34.openauth.model.AuthError;
 import fr.theshark34.openauth.model.response.AuthResponse;
 import fr.theshark34.openauth.model.response.RefreshResponse;
 import fr.theshark34.openlauncherlib.LaunchException;
@@ -41,6 +43,7 @@ public class EldariaLauncher
 	public static final String ED_URL = "https://api.eldaria.fr";
 	public static final Authenticator ED_AUTH = new Authenticator(ED_URL.concat("/auth/") /*Authenticator.MOJANG_AUTH_URL*/, AuthPoints.NORMAL_AUTH_POINTS);
 	public static final SUpdate ED_UPDATER = new SUpdate(ED_URL.concat("/updater"), ED_DIR);
+	public static final AccountsManager ED_ACCOUNTS = new AccountsManager();
 	public static Font ED_FONT_BOLD;
 	public static Font ED_FONT_LOW;
 	private static AuthInfos authInfos;
@@ -64,6 +67,13 @@ public class EldariaLauncher
 		}
 		catch (FontFormatException | IOException e)
 		{
+			e.printStackTrace();
+		}
+
+		try {
+			ED_ACCOUNTS.load();
+		} catch (IOException e) {
+			System.err.println("Failed to load the store");
 			e.printStackTrace();
 		}
 
@@ -97,8 +107,10 @@ public class EldariaLauncher
 		);
 	}
 
-	public static void setAuthInfos(String username, String accessToken, String uuid)
-	{
+	public static void setAuthInfos(String username, String accessToken, String uuid) throws AuthenticationException {
+		if (uuid != null && !uuid.isEmpty())
+			if (!ED_ACCOUNTS.canLogin(uuid))
+				throw new AuthenticationException(new AuthError("TooManyAccounts", "La limite de comptes sur ce PC a été atteinte !", ""));
 		authInfos = new AuthInfos(
 				username,
 				accessToken,
@@ -116,6 +128,12 @@ public class EldariaLauncher
 		if (keepLogin)
 			accessToken = authInfos.getAccessToken();
 		ED_SAVER.set("access-token", accessToken);
+		try {
+			ED_ACCOUNTS.save();
+		} catch (IOException e) {
+			System.err.println("Failed to load the store");
+			e.printStackTrace();
+		}
 	}
 
 	public static void update() throws Exception

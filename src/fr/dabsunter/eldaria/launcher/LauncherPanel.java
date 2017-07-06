@@ -183,7 +183,10 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 			}
 			else if (event.getSource() == disconnectButton)
 			{
-				setAuthInfos("", "", "");
+				try {
+					setAuthInfos("", "", "");
+				} catch (AuthenticationException e) {
+				}
 				saveInfos(false);
 				setFieldsEnabled(true);
 				willRefresh = false;
@@ -195,7 +198,7 @@ public class LauncherPanel extends JPanel implements SwingerEventListener
 					public void run() {
 						setFieldsEnabled(false);
 
-						setAuthText("Autentification...");
+						setAuthText("Authentification...");
 						try {
 							if (willRefresh)
 								refresh();
