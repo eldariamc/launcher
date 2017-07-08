@@ -38,7 +38,7 @@ public class EldariaLauncher
 	public static final GameVersion ED_VERSION = new GameVersion("1.7.10", GameType.V1_7_10);
 	public static final GameInfos ED_INFOS = new GameInfos("Eldaria", ED_VERSION, null);
 	public static final File ED_DIR = ED_INFOS.getGameDir();
-	public static final Saver ED_SAVER = new Saver(new File(ED_DIR, "eldaria_dev.properties"));
+	public static final Saver ED_SAVER = new Saver(new File(ED_DIR, "eldaria.properties"));
 	public static final CrashReporter ED_CRASH = new CrashReporter(ED_INFOS.getServerName(), new File(ED_DIR, "crashs"));
 	public static final String ED_URL = "https://api.eldaria.fr";
 	public static final Authenticator ED_AUTH = new Authenticator(ED_URL.concat("/auth/") /*Authenticator.MOJANG_AUTH_URL*/, AuthPoints.NORMAL_AUTH_POINTS);
@@ -187,7 +187,7 @@ public class EldariaLauncher
 		} catch (IllegalArgumentException ex) {}
 		profile.getVmArgs().addAll(0, am.getVmArgs());
 
-		profile.getArgs().add("--demo");
+		//profile.getArgs().add("--demo");
 
 		ExternalLauncher launcher = new ExternalLauncher(profile, new BeforeLaunchingEvent() {
 			@Override
