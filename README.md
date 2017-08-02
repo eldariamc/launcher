@@ -7,9 +7,9 @@ Toutefois quelques ajouts relève quand même d'une réflexion plus poussée...
 
 Fonctionnalitées
 ----------------
-- Auth `yggdrasil` like ([OpenAuth](Litarvan/OpenAuth))
-- Système de mise à jour ([S-Update](Litarvan/S-Update))
-- Gestion des fichiers du jeu ([OpenLauncherLib](Litarvan/OpenLauncherLib))
+- Auth `yggdrasil` like ([OpenAuth](https://github.com/Litarvan/OpenAuth))
+- Système de mise à jour ([S-Update](https://github.com/Litarvan/S-Update))
+- Gestion des fichiers du jeu ([OpenLauncherLib](https://github.com/Litarvan/OpenLauncherLib))
 - Sélecteur de RAM
 - Anti double-compte
 - Système de licence bidon (Scam), sa seule sécurité est l'obfuscation qu'on y applique
